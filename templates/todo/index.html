@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    To Do App
+{% endblock title %}
+
+{% block content %}
+
+    {{ user }}
+    <a href="{% url 'users_app:user-logout' %}">Logout</a>
+    
+    <div class="form-container">
+        <form method="POST" class="form-task" id="createTaskForm" data-url="{% url 'todo_app:task_list_url' %}">{% csrf_token %}
+            <div class="label title">
+                <label for="tarea" id="tarea">Tarea</label>
+                {{ form.title }}
+            </div>
+            <div class="label time">
+                <label for="hora" id="hora">Hora</label>
+                {{ form.time }}
+            </div>
+            <div class="button-label">
+                <button type="button" class="label button" id="createButton">Agregar</button>
+            </div>
+        </form>
+    </div>
+
+    
+    <div class="task-list" id="taskList">
+        {% for task in tasks %}
+        <div class="task-group" id="task-group" data-id="{{ task.id }}">
+            <div class="task-title">
+                <strong> • {{ task.title }}</strong>
+            </div>
+            <div class="task-time">
+                <strong>{{ task.time|date:"H:i A"|lower }}</strong>
+            </div>
+            <div class="task-delete">
+                <button data-id="{{ task.id }}" class="material-icons-round button-delete">delete</button>
+            </div>
+        </div>
+        <div class="separador" data-id="{{ task.id }}">
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="modal-form">
+        
+    </div>
+
+
+{% endblock content %}
+    

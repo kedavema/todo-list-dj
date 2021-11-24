@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
+
+{% load static %}
+
+{% if user.is_authenticated %}
+  <h1>Bienvenido {{ user }}</h1>
+{% endif %}
+
+{% block title %}
+  Registro de nuevos usuarios
+{% endblock title %}  
+
+{% block content %}
+
+<div class="register">
+    <div class="register-header">
+      <h1>Crea tu lista de cosas por hacer</h1>
+    </div>
+    <div class="register-container">
+        <form class="signup-form" method="POST" id="signup-form" data-url="{% url 'users_app:check_email_exists' %}">{% csrf_token %}
+          <h3>Correo:</h3>
+          {{ form.email }}
+          <span id="emailError"></span>
+          <h3>Contraseña:</h3>
+          {{ form.password1 }}
+          <h3>Repetir Contraseña:</h3>
+          {{ form.password2 }}
+          <span id="passError">Las contraseñas no coinciden</span>
+          <!-- {{ form.errors }} -->
+          <br>
+          <button type="submit" class="register-button" id="register-button">
+              <span class="button-text">Registrate</span>
+          </button>
+          <a href="{% url 'users_app:user-login' %}" class="login-redirect">Iniciar Sesión</a>
+          <br>
+        </form>
+    </div>
+</div>
+
+<div class="login-with-facebook" id="facebook-card">
+  <i class="fab fa-facebook"></i>
+  <a id="fb-login" href="{% provider_login_url 'facebook' %}">Log In with Facebook</a>
+</div>
+
+<div class="login-with-google" id="google-card">
+  <a id="google-login" href="{% provider_login_url 'google' %}"><img class="google-icon" src="{% static 'img/google_icon.png' %}" alt="google-icon"> Log In with Google</a>
+</div>
+
+{% endblock content %}
